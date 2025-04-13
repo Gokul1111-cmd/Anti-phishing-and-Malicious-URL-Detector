@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Detection System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0b1023;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar {
+            background-color: #131837;
+            padding: 20px;
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar .logo img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar nav ul li {
+            margin: 20px 0;
+        }
+
+        .sidebar nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .sidebar nav ul li a.active, .sidebar nav ul li a:hover {
+            color: #ffd700;
+        }
+
+        .main-content {
+            background-color: #1d233d;
+            width: 80%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .settings-form {
+            margin-top: 20px;
+        }
+
+        .settings-form .setting {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .settings-form .setting p {
+            margin: 0;
+        }
+
+        .settings-form input[type="range"] {
+            width: 60%;
+        }
+
+        .settings-form button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .settings-form button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Scan</a></li>
+                    <li><a href="{{ url_for('protect') }}">Protect</a></li>
+                    <li><a href="{{ url_for('quarantine') }}">Quarantine</a></li>
+                    <li><a href="{{ url_for('settings') }}" class="active">Settings</a></li>
+
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content">
+            <header>
+                <h1>Settings</h1>
+            </header>
+            <div class="settings-form">
+                <form action="{{ url_for('update_settings') }}" method="POST">
+                    <div class="setting">
+                        <p>Background Analysis Level</p>
+                        <input type="range" name="background_analysis" min="0" max="100" value="50">
+                    </div>
+                    <div class="setting">
+                        <p>Malware Detection Sensitivity</p>
+                        <input type="range" name="malware_detection" min="0" max="100" value="75">
+                    </div>
+                    <div class="setting">
+                        <p>Optimization Level</p>
+                        <input type="range" name="optimization" min="0" max="100" value="40">
+                    </div>
+                    <button type="submit">Save Settings</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

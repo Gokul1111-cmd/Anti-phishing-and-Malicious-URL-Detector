@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quarantine - Detection System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0b1023;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar {
+            background-color: #131837;
+            padding: 20px;
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar .logo img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar nav ul li {
+            margin: 20px 0;
+        }
+
+        .sidebar nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .sidebar nav ul li a.active, .sidebar nav ul li a:hover {
+            color: #ffd700;
+        }
+
+        .main-content {
+            background-color: #1d233d;
+            width: 80%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .quarantine-list {
+            margin-top: 20px;
+        }
+
+        .quarantine-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .quarantine-list th, .quarantine-list td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        .quarantine-list th {
+            background-color: #282f44;
+        }
+
+        .quarantine-list td {
+            background-color: #1d233d;
+        }
+
+        .quarantine-list form {
+            display: inline;
+        }
+
+        .quarantine-list button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .quarantine-list button.delete {
+            background-color: #dc3545;
+        }
+
+        .quarantine-list button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Scan</a></li>
+                    <li><a href="{{ url_for('protect') }}">Protect</a></li>
+                    <li><a href="{{ url_for('quarantine') }}" class="active">Quarantine</a></li>
+                    <li><a href="{{ url_for('settings') }}">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content">
+            <header>
+                <h1>Quarantine List</h1>
+            </header>
+            <div class="quarantine-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>URL</th>
+                            <th>Date Quarantined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td>{{ item[0] }}</td>
+                            <td>{{ item[1] }}</td>
+                            <td>
+                                <form action="{{ url_for('restore', item_id=loop.index0) }}" method="post">
+                                    <button type="submit">Restore</button>
+                                </form>
+                                <form action="{{ url_for('delete', item_id=loop.index0) }}" method="post">
+                                    <button type="submit" class="delete">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
